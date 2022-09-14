@@ -44,13 +44,13 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.metrics import classification_report,confusion_matrix
 import numpy as np
 import matplotlib.pylab as plt
-# Load the csv file
+
 df=pd.read_csv("customers.csv")
 df.head()
 df.columns
 df.dtypes
 df.shape
-# Check for null values and clean the dataset
+
 df.isnull().sum()
 df_clean=df.dropna(axis=0)
 df_clean.isnull().sum()
@@ -63,7 +63,7 @@ df_clean['Profession'].unique()
 df_clean['Spending_Score'].unique()
 df_clean['Var_1'].unique()
 df_clean['Segmentation'].unique()
-# Apply encoders
+
 category_list=[
     ['Male', 'Female'],
     ['No', 'Yes'],
@@ -89,7 +89,7 @@ df1 = df1.drop('ID',axis=1)
 df1 = df1.drop('Var_1',axis=1)
 df1.dtypes
 corr = df1.corr()
-# Find co-relation between fields
+
 sns.heatmap(corr, 
         xticklabels=corr.columns,
         yticklabels=corr.columns,
@@ -118,7 +118,7 @@ y.shape
 y1[0]
 y[0]
 x.shape
-# train the model
+
 x_train,x_test,y_train,y_test=train_test_split(x,y,
                                                test_size=0.33,
                                                random_state=50)
@@ -129,10 +129,8 @@ scaler_age.fit(x_train[:,2].reshape(-1, 1))
 x_train_scaled = np.copy(x_train)
 x_test_scaled = np.copy(x_test)
 x_train_scaled.shape
-# To scale the Age column
 x_train_scaled[:,2] = scaler_age.transform(x_train[:,2].reshape(-1, 1)).reshape(-1)
 x_test_scaled[:,2] = scaler_age.transform(x_test[:,2].reshape(-1,1)).reshape(-1)
-# Creating the model
 ai_brain = Sequential([
     Dense(8,input_shape=[8]),
     Dense(4,activation='relu'),
@@ -152,7 +150,6 @@ ai_brain.fit(x_train_scaled,y_train,
  metrics = pd.DataFrame(ai_brain.history.history)
  metrics.tail()
  metrics.plot()
- # Predictions
 x_test_predictions = np.argmax(ai_brain.predict(x_test_scaled), axis=1)
 x_test_predictions.shape
 y_test_truevalue = np.argmax(y_test,axis=1)
